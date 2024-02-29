@@ -9,8 +9,6 @@ def main():
     def letter_count(word_list):
         letters = list(range(ord("a"), ord("z") + 1))
         letter_count = {}
-        print(letters[0], letters[25])
-        print(letters)
 
         for word in word_list:
             for letter in word:
