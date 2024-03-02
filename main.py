@@ -1,3 +1,6 @@
+import string
+
+
 def main():
     with open(
         "/Users/peterwilliams/self_learning/boot_dev/projects/book_bot_text_analysis/books/frankenstein.txt"
@@ -6,40 +9,31 @@ def main():
         words = file_contents.split()
         print(len(words))
 
-    def letter_count(word_list):
-        letters = list(range(ord("a"), ord("z") + 1))
-        letter_count = {}
+        letter_count = count_letters(words)
+        word_count_report(letter_count)
 
-        for word in word_list:
-            for letter in word:
-                if ord(letter.lower()) in letters:
-                    if letter.lower() not in letter_count:
-                        letter_count[letter.lower()] = 1
-                    else:
-                        letter_count[letter.lower()] += 1
-                else:
-                    None
-        return letter_count
 
-    def sort_on(dict):
-        return dict["count"]
+def count_letters(word_list):
+    letter_count = {letter: 0 for letter in string.ascii_lowercase}
 
-    def word_count_report(letter_count):
-        sorted_letter_count = []
-        print("--- Begin report of books/frankenstein.txt ---")
-        print(f"Total words: {len(words)}")
-        for key in letter_count:
-            sorted_letter_count.append({"letter": key, "count": letter_count[key]})
+    for word in word_list:
+        for letter in word:
+            if letter.isalpha():
+                letter_count[letter.lower()] += 1
+    return letter_count
 
-        sorted_letter_count.sort(reverse=True, key=sort_on)
 
-        for dict in sorted_letter_count:
-            print(f"The character {dict['letter']} was found {dict['count']} times")
+def word_count_report(letter_count):
+    print("--- Begin report of books/frankenstein.txt ---")
+    print(letter_count.items(), "these are the items")
+    sorted_letter_count = sorted(
+        letter_count.items(), key=lambda item: item[1], reverse=True
+    )
 
-        print("--- End report of books/frankenstein.txt ---")
+    for letter, count in sorted_letter_count:
+        print(f"The character {letter} was found {count} times")
 
-    letter_count = letter_count(words)
-    word_count_report(letter_count)
+    print("--- End report of books/frankenstein.txt ---")
 
 
 main()
